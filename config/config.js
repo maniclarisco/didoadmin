@@ -5,7 +5,7 @@ module.exports  = {
     siteName : "clarblock"
   },
   mongodb:{    
-    dbstring :'mongodb+srv://idoapp:ywQeeX7LgGUvQG69@cluster0.yu8crsl.mongodb.net/idoapp?retryWrites=true&w=majority',
+    dbstring :'',
   },
   session : {
     cookieKey : 'clarblock'
