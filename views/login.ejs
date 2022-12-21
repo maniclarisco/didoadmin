@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D-IDO | Log in</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="/"><b>D-IDO </b>Admin</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+
+      <form name="loginForm" id="loginForm" >
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email" name="ad_email" id="ad_email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <label id="ad_email-error" class="error" for="ad_email"></label>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" name="ad_pass" id="ad_pass">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <label id="ad_email-error" class="error" for="ad_pass"></label>
+        <div class="row">
+          <!-- <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div>
+          </div> -->
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!-- <div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+      </div> -->
+      <!-- /.social-auth-links -->
+
+      <!-- <p class="mb-1">
+        <a href="/">I forgot my password</a>
+      </p> -->
+      <!-- <p class="mb-0">
+        <a href="register.html" class="text-center">Register a new membership</a>
+      </p> -->
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../js/adminlte.min.js"></script>
+<link rel="stylesheet" href="../../css/jquery.validate.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+  
+  
+  <script>      
+  var base_url = window.location.origin;
+  var jq = jQuery.noConflict();
+  
+  jq("#loginForm").validate({
+  rules: {
+  ad_email: {
+  required: true,
+  email: true
+  } , ad_pass: {
+  required: true,
+  }
+  },
+  messages: {
+  ad_email: {
+  required: "Email Is Required"
+  },  ad_pass: {
+  required: "Password Is Required"
+  },
+  
+  },
+  
+  submitHandler: function(form,e) {
+  jq.ajax({
+  type: 'POST',
+  url: base_url+'/login',
+  dataType: "json",
+  data: jq('#loginForm').serialize(),
+  success: function(result) {
+    console.log(result,"result")
+  jq("#alerterrdivc").hide();
+  jq("#alertsuccessdivc").hide();
+  if(result.status==1) { //  validation err
+  var assign_err='';
+  result.message.forEach(function(fetitem) {
+  if(fetitem.param=="ad_email") {
+  assign_err+=fetitem.msg
+  }
+  if(fetitem.param=="ad_pass") {
+  assign_err+=fetitem.msg
+  }
+  // if(fetitem.param=="lock_pat") {
+  // assign_err+=fetitem.msg
+  // }
+  
+  });
+  jq("#alerterrdivc").show();
+  jq("#errmsgc").html(assign_err);
+  }
+  else if(result.status==2){
+  jq("#alertsuccessdivc").show();
+  jq("#successmsgc").html(result.message);
+  window.location.href="/dashboard";
+  }
+  else if(result.status==4){
+  jq("#alertsuccessdivc").show();
+  jq("#successmsgc").html(result.message);
+  window.location.href="/dashboard";
+  }
+  else {
+  jq("#alerterrdivc").show();
+  jq("#errmsgc").html(result.message);
+  }
+  
+  },
+  error: function(error) {
+  
+  }
+  });
+  },
+  
+  });
+  
+
+  </script>
+</body>
+</html>
